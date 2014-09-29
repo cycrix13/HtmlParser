@@ -36,9 +36,10 @@
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnSet = new System.Windows.Forms.Button();
             this.btnFindEmail = new System.Windows.Forms.Button();
-            this.listView3 = new System.Windows.Forms.ListView();
+            this.lstFilterDetail = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.edtValue = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // lstFilter
@@ -51,6 +52,7 @@
             this.lstFilter.TabIndex = 0;
             this.lstFilter.UseCompatibleStateImageBehavior = false;
             this.lstFilter.View = System.Windows.Forms.View.List;
+            this.lstFilter.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lstFilter_ItemSelectionChanged);
             // 
             // label1
             // 
@@ -120,18 +122,23 @@
             this.btnFindEmail.UseVisualStyleBackColor = true;
             this.btnFindEmail.Click += new System.EventHandler(this.btnFindEmail_Click);
             // 
-            // listView3
+            // lstFilterDetail
             // 
-            this.listView3.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.lstFilterDetail.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2});
-            this.listView3.LabelEdit = true;
-            this.listView3.Location = new System.Drawing.Point(343, 29);
-            this.listView3.Name = "listView3";
-            this.listView3.Size = new System.Drawing.Size(347, 97);
-            this.listView3.TabIndex = 9;
-            this.listView3.UseCompatibleStateImageBehavior = false;
-            this.listView3.View = System.Windows.Forms.View.Details;
+            this.lstFilterDetail.FullRowSelect = true;
+            this.lstFilterDetail.GridLines = true;
+            this.lstFilterDetail.LabelEdit = true;
+            this.lstFilterDetail.LabelWrap = false;
+            this.lstFilterDetail.Location = new System.Drawing.Point(343, 29);
+            this.lstFilterDetail.Name = "lstFilterDetail";
+            this.lstFilterDetail.Size = new System.Drawing.Size(347, 97);
+            this.lstFilterDetail.TabIndex = 9;
+            this.lstFilterDetail.UseCompatibleStateImageBehavior = false;
+            this.lstFilterDetail.View = System.Windows.Forms.View.Details;
+            this.lstFilterDetail.SelectedIndexChanged += new System.EventHandler(this.lstFilterDetail_SelectedIndexChanged);
+            this.lstFilterDetail.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lstFilterDetail_MouseDoubleClick);
             // 
             // columnHeader1
             // 
@@ -143,12 +150,20 @@
             this.columnHeader2.Text = "Value";
             this.columnHeader2.Width = 356;
             // 
+            // edtValue
+            // 
+            this.edtValue.Location = new System.Drawing.Point(343, 133);
+            this.edtValue.Name = "edtValue";
+            this.edtValue.Size = new System.Drawing.Size(264, 20);
+            this.edtValue.TabIndex = 10;
+            // 
             // DetailItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(702, 471);
-            this.Controls.Add(this.listView3);
+            this.Controls.Add(this.edtValue);
+            this.Controls.Add(this.lstFilterDetail);
             this.Controls.Add(this.btnFindEmail);
             this.Controls.Add(this.btnSet);
             this.Controls.Add(this.btnDelete);
@@ -174,8 +189,9 @@
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnSet;
         private System.Windows.Forms.Button btnFindEmail;
-        private System.Windows.Forms.ListView listView3;
+        private System.Windows.Forms.ListView lstFilterDetail;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.TextBox edtValue;
     }
 }

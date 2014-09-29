@@ -89,5 +89,32 @@ namespace HtmlParser
                 lstFilter.Items.Add(new ListViewItem(filter.getType()));
             }
         }
+
+        private void lstFilter_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            int index = e.ItemIndex;
+            DataFilter filter = _data.filterList[index];
+
+            lstFilterDetail.Items.Clear();
+            for (int i = 0; i < filter.getCount(); i++)
+            {
+                ListViewItem item = new ListViewItem(new string[] {filter.getTitle(i), filter.getValue(i)});
+                lstFilterDetail.Items.Add(item);
+            }
+        }
+
+        private void lstFilterDetail_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lstFilterDetail_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (lstFilterDetail.SelectedIndices.Count == 0)
+                return;
+
+            int index = lstFilterDetail.SelectedIndices[0];
+            edtValue.Focus();
+        }
     }
 }
