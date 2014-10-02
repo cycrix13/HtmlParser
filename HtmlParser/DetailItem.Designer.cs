@@ -30,8 +30,8 @@
         {
             this.lstFilter = new System.Windows.Forms.ListView();
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.listView2 = new System.Windows.Forms.ListView();
+            this.btnApply = new System.Windows.Forms.Button();
+            this.lstResult = new System.Windows.Forms.ListView();
             this.Add = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnSet = new System.Windows.Forms.Button();
@@ -40,12 +40,16 @@
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.edtValue = new System.Windows.Forms.TextBox();
+            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // lstFilter
             // 
-            this.lstFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.lstFilter.Location = new System.Drawing.Point(12, 29);
             this.lstFilter.Name = "lstFilter";
             this.lstFilter.Size = new System.Drawing.Size(239, 113);
@@ -63,26 +67,36 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Filter";
             // 
-            // button1
+            // btnApply
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(613, 133);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnApply.Location = new System.Drawing.Point(1018, 133);
+            this.btnApply.Name = "btnApply";
+            this.btnApply.Size = new System.Drawing.Size(75, 23);
+            this.btnApply.TabIndex = 2;
+            this.btnApply.Text = "Apply";
+            this.btnApply.UseVisualStyleBackColor = true;
+            this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
             // 
-            // listView2
+            // lstResult
             // 
-            this.listView2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.lstResult.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.listView2.Location = new System.Drawing.Point(12, 162);
-            this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(675, 297);
-            this.listView2.TabIndex = 3;
-            this.listView2.UseCompatibleStateImageBehavior = false;
+            this.lstResult.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader3,
+            this.columnHeader4,
+            this.columnHeader5,
+            this.columnHeader6,
+            this.columnHeader7,
+            this.columnHeader8});
+            this.lstResult.GridLines = true;
+            this.lstResult.Location = new System.Drawing.Point(12, 208);
+            this.lstResult.Name = "lstResult";
+            this.lstResult.Size = new System.Drawing.Size(1080, 586);
+            this.lstResult.TabIndex = 3;
+            this.lstResult.UseCompatibleStateImageBehavior = false;
+            this.lstResult.View = System.Windows.Forms.View.Details;
             // 
             // Add
             // 
@@ -102,6 +116,7 @@
             this.btnDelete.TabIndex = 5;
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnSet
             // 
@@ -111,6 +126,7 @@
             this.btnSet.TabIndex = 7;
             this.btnSet.Text = "Set";
             this.btnSet.UseVisualStyleBackColor = true;
+            this.btnSet.Click += new System.EventHandler(this.btnSet_Click);
             // 
             // btnFindEmail
             // 
@@ -124,6 +140,8 @@
             // 
             // lstFilterDetail
             // 
+            this.lstFilterDetail.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lstFilterDetail.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2});
@@ -133,7 +151,7 @@
             this.lstFilterDetail.LabelWrap = false;
             this.lstFilterDetail.Location = new System.Drawing.Point(343, 29);
             this.lstFilterDetail.Name = "lstFilterDetail";
-            this.lstFilterDetail.Size = new System.Drawing.Size(347, 97);
+            this.lstFilterDetail.Size = new System.Drawing.Size(752, 97);
             this.lstFilterDetail.TabIndex = 9;
             this.lstFilterDetail.UseCompatibleStateImageBehavior = false;
             this.lstFilterDetail.View = System.Windows.Forms.View.Details;
@@ -152,24 +170,56 @@
             // 
             // edtValue
             // 
-            this.edtValue.Location = new System.Drawing.Point(343, 133);
+            this.edtValue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.edtValue.Location = new System.Drawing.Point(12, 148);
             this.edtValue.Name = "edtValue";
-            this.edtValue.Size = new System.Drawing.Size(264, 20);
+            this.edtValue.Size = new System.Drawing.Size(669, 20);
             this.edtValue.TabIndex = 10;
+            this.edtValue.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.edtValue_KeyPress);
+            // 
+            // columnHeader3
+            // 
+            this.columnHeader3.Text = "XPath";
+            this.columnHeader3.Width = 648;
+            // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "email";
+            this.columnHeader4.Width = 146;
+            // 
+            // columnHeader5
+            // 
+            this.columnHeader5.Text = "xpathRelative1";
+            this.columnHeader5.Width = 66;
+            // 
+            // columnHeader6
+            // 
+            this.columnHeader6.Text = "relative1";
+            this.columnHeader6.Width = 70;
+            // 
+            // columnHeader7
+            // 
+            this.columnHeader7.Text = "xpathRelative2";
+            this.columnHeader7.Width = 72;
+            // 
+            // columnHeader8
+            // 
+            this.columnHeader8.Text = "relative2";
             // 
             // DetailItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(702, 471);
+            this.ClientSize = new System.Drawing.Size(1107, 806);
             this.Controls.Add(this.edtValue);
             this.Controls.Add(this.lstFilterDetail);
             this.Controls.Add(this.btnFindEmail);
             this.Controls.Add(this.btnSet);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.Add);
-            this.Controls.Add(this.listView2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.lstResult);
+            this.Controls.Add(this.btnApply);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lstFilter);
             this.Name = "DetailItem";
@@ -183,8 +233,8 @@
 
         private System.Windows.Forms.ListView lstFilter;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.ListView listView2;
+        private System.Windows.Forms.Button btnApply;
+        private System.Windows.Forms.ListView lstResult;
         private System.Windows.Forms.Button Add;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnSet;
@@ -193,5 +243,11 @@
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.TextBox edtValue;
+        private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.ColumnHeader columnHeader4;
+        private System.Windows.Forms.ColumnHeader columnHeader5;
+        private System.Windows.Forms.ColumnHeader columnHeader6;
+        private System.Windows.Forms.ColumnHeader columnHeader7;
+        private System.Windows.Forms.ColumnHeader columnHeader8;
     }
 }

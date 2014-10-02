@@ -28,36 +28,54 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox = new System.Windows.Forms.TextBox();
+            this.lst = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
-            // textBox
+            // lst
             // 
-            this.textBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.lst.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox.Location = new System.Drawing.Point(12, 12);
-            this.textBox.Multiline = true;
-            this.textBox.Name = "textBox";
-            this.textBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox.Size = new System.Drawing.Size(645, 406);
-            this.textBox.TabIndex = 0;
+            this.lst.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2});
+            this.lst.FullRowSelect = true;
+            this.lst.GridLines = true;
+            this.lst.LabelEdit = true;
+            this.lst.Location = new System.Drawing.Point(13, 13);
+            this.lst.Name = "lst";
+            this.lst.Size = new System.Drawing.Size(1102, 406);
+            this.lst.TabIndex = 0;
+            this.lst.UseCompatibleStateImageBehavior = false;
+            this.lst.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Width = 640;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Width = 170;
             // 
             // EmailXpathList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(669, 431);
-            this.Controls.Add(this.textBox);
+            this.ClientSize = new System.Drawing.Size(1127, 431);
+            this.Controls.Add(this.lst);
             this.Name = "EmailXpathList";
             this.Text = "EmailXpathList";
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox;
+        private System.Windows.Forms.ListView lst;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
+
     }
 }

@@ -33,10 +33,13 @@
             this.columnNumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnUrl = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnDownload = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnLoad = new System.Windows.Forms.Button();
             this.btnParse = new System.Windows.Forms.Button();
+            this.btnAssign = new System.Windows.Forms.Button();
+            this.btnExtract = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnImport
@@ -57,12 +60,13 @@
             this.lstData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnNumber,
             this.columnUrl,
-            this.columnStatus});
+            this.columnStatus,
+            this.columnHeader1});
             this.lstData.FullRowSelect = true;
             this.lstData.GridLines = true;
             this.lstData.Location = new System.Drawing.Point(13, 42);
             this.lstData.Name = "lstData";
-            this.lstData.Size = new System.Drawing.Size(698, 509);
+            this.lstData.Size = new System.Drawing.Size(796, 509);
             this.lstData.TabIndex = 1;
             this.lstData.UseCompatibleStateImageBehavior = false;
             this.lstData.View = System.Windows.Forms.View.Details;
@@ -84,6 +88,11 @@
             this.columnStatus.Text = "Status";
             this.columnStatus.Width = 143;
             // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Data records";
+            this.columnHeader1.Width = 91;
+            // 
             // btnDownload
             // 
             this.btnDownload.Location = new System.Drawing.Point(95, 13);
@@ -97,7 +106,7 @@
             // btnSave
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.Location = new System.Drawing.Point(635, 13);
+            this.btnSave.Location = new System.Drawing.Point(733, 13);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 3;
@@ -108,7 +117,7 @@
             // btnLoad
             // 
             this.btnLoad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLoad.Location = new System.Drawing.Point(554, 13);
+            this.btnLoad.Location = new System.Drawing.Point(652, 13);
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(75, 23);
             this.btnLoad.TabIndex = 4;
@@ -126,11 +135,33 @@
             this.btnParse.UseVisualStyleBackColor = true;
             this.btnParse.Click += new System.EventHandler(this.btnParse_Click);
             // 
+            // btnAssign
+            // 
+            this.btnAssign.Location = new System.Drawing.Point(259, 13);
+            this.btnAssign.Name = "btnAssign";
+            this.btnAssign.Size = new System.Drawing.Size(75, 23);
+            this.btnAssign.TabIndex = 6;
+            this.btnAssign.Text = "Assign";
+            this.btnAssign.UseVisualStyleBackColor = true;
+            this.btnAssign.Click += new System.EventHandler(this.btnAssign_Click);
+            // 
+            // btnExtract
+            // 
+            this.btnExtract.Location = new System.Drawing.Point(341, 13);
+            this.btnExtract.Name = "btnExtract";
+            this.btnExtract.Size = new System.Drawing.Size(75, 23);
+            this.btnExtract.TabIndex = 7;
+            this.btnExtract.Text = "Extract";
+            this.btnExtract.UseVisualStyleBackColor = true;
+            this.btnExtract.Click += new System.EventHandler(this.btnExtract_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(723, 563);
+            this.ClientSize = new System.Drawing.Size(821, 563);
+            this.Controls.Add(this.btnExtract);
+            this.Controls.Add(this.btnAssign);
             this.Controls.Add(this.btnParse);
             this.Controls.Add(this.btnLoad);
             this.Controls.Add(this.btnSave);
@@ -154,6 +185,9 @@
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnLoad;
         private System.Windows.Forms.Button btnParse;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.Button btnAssign;
+        private System.Windows.Forms.Button btnExtract;
     }
 }
 

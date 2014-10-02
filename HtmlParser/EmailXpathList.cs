@@ -17,16 +17,16 @@ namespace HtmlParser
             InitializeComponent();
         }
 
-        public EmailXpathList(string[] xpathList)
+        public EmailXpathList(List<string[]> xpathList)
         {
             InitializeComponent();
 
-            StringBuilder builder = new StringBuilder();
-            foreach (string str in xpathList) {
-                builder.Append(str).Append("\r\n");
+            foreach (string[] strArr in xpathList) {
+                lst.Items.Add(new ListViewItem(strArr));
             }
 
-            textBox.Text = builder.ToString();
+            this.Location = new Point();
+            this.StartPosition = FormStartPosition.Manual;
         }
     }
 }

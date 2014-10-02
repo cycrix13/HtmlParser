@@ -10,6 +10,8 @@ using System.IO;
 using System.Net;
 using System.Xml.Serialization;
 using System.Text.RegularExpressions;
+using HtmlAgilityPack;
+using System.Diagnostics;
 
 namespace HtmlParser
 {
@@ -50,7 +52,7 @@ namespace HtmlParser
             {
                 if (lstData.Items.Count - 1 < i)
                 {
-                    lstData.Items.Add(new ListViewItem(new string[] { "", "", "" }));
+                    lstData.Items.Add(new ListViewItem(new string[] { "", "", "", ""}));
                 }
                 else if (!_data[i].dirty)
                     continue;
@@ -58,6 +60,8 @@ namespace HtmlParser
                 lstData.Items[i].SubItems[0].Text = Convert.ToString(i);
                 lstData.Items[i].SubItems[1].Text = _data[i].url;
                 lstData.Items[i].SubItems[2].Text = _data[i].status;
+                if (_data[i].dataList.Count > 0)
+                    lstData.Items[i].SubItems[3].Text = Convert.ToString(_data[i].dataList.Count);
 
                 _data[i].dirty = false;
             }
@@ -101,7 +105,21 @@ namespace HtmlParser
 
         public string getFileName(int index)
         {
-            return Convert.ToString(index) + "_" + _data[index].url.Substring(_data[index].url.LastIndexOf('/') + 1);
+            StringBuilder builder = new StringBuilder();
+            string iligal = _data[index].url.Substring(_data[index].url.LastIndexOf('/') + 1);
+            foreach (char ch in iligal) {
+                if ((ch >= 'a' && ch <= 'z') ||
+                    (ch >= 'A' && ch <= 'Z') ||
+                    (ch >= '0' && ch <= '9') ||
+                    ch == '_' ||
+                    ch == '.' ||
+                    ch == '-' ||
+                    ch == '%') {
+                    builder.Append(ch);
+                }
+            }
+
+            return Convert.ToString(index) + "_" + builder.ToString();
         }
 
         class DownloadListener
@@ -137,13 +155,14 @@ namespace HtmlParser
             }
         }
 
-        private void btnSave_Click(object sender, EventArgs e)
+        public void btnSave_Click(object sender, EventArgs e)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(List<DataItem>));
 
             string filename = "Data.xml";
-            TextWriter writer = new StreamWriter(filename);
+            StreamWriter writer = new StreamWriter(filename);
             serializer.Serialize(writer, _data);
+            writer.Close();
         }
 
         private void btnLoad_Click(object sender, EventArgs e)
@@ -153,6 +172,7 @@ namespace HtmlParser
             string filename = "Data.xml";
             TextReader reader = new StreamReader(filename);
             _data = (List<DataItem>)serializer.Deserialize(reader);
+            reader.Close();
 
             foreach (DataItem item in _data)
                 item.dirty = true;
@@ -162,30 +182,30 @@ namespace HtmlParser
 
         private void btnParse_Click(object sender, EventArgs e)
         {
-            Regex regex = new Regex(@"[\w-]+@([\w-]+\.)+[\w-]+");
+            //Regex regex = new Regex(@"[\w-]+@([\w-]+\.)+[\w-]+");
 
-            for (int i = 0; i < _data.Count; i++)
-            {
-                if (!_data[i].status.Equals("Download Complete"))
-                    continue;
+            //for (int i = 0; i < _data.Count; i++)
+            //{
+            //    if (!_data[i].status.Equals("Download Complete"))
+            //        continue;
 
-                string filename = getFileName(i);
-                string file = File.ReadAllText(filename);
+            //    string filename = getFileName(i);
+            //    string file = File.ReadAllText(filename);
 
-                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
-                doc.LoadHtml(file);
+            //    HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+            //    doc.LoadHtml(file);
 
-                if (doc.ParseErrors != null && doc.ParseErrors.Count() > 0)
-                    continue;
+            //    if (doc.ParseErrors != null && doc.ParseErrors.Count() > 0)
+            //        continue;
 
-                List<string> xpathList = new List<string>();
-                visitHtmlNode(doc.DocumentNode.SelectSingleNode("//body"), regex, xpathList);
+            //    List<string> xpathList = new List<string>();
+            //    visitHtmlNode(doc.DocumentNode.SelectSingleNode("//body"), regex, xpathList);
 
-                _data[i].matches = xpathList.ToArray();
-            }
+            //    _data[i].matches = xpathList.ToArray();
+            //}
         }
 
-        private void visitHtmlNode(HtmlAgilityPack.HtmlNode node, Regex regex, List<string> xpathList)
+        static public void visitHtmlNode(HtmlAgilityPack.HtmlNode node, Regex regex, List<string> xpathList)
         {
             if (node.NodeType ==  HtmlAgilityPack.HtmlNodeType.Text && regex.IsMatch(node.InnerText))
             {
@@ -209,31 +229,94 @@ namespace HtmlParser
                 return;
 
             int index = lstData.SelectedIndices[0];
-            new DetailItem(_data[index], index).Show();
+            new Extractor(_data[index], index, this).Show();
+
+            ProcessStartInfo startInfo = new ProcessStartInfo("chrome.exe", _data[index].url);
+            Process.Start(startInfo); 
+        }
+
+        private void btnAssign_Click(object sender, EventArgs e)
+        {
+            if (lstData.SelectedIndices.Count == 0)
+                return;
+
+            int index = lstData.SelectedIndices[0];
+
+            OpenFileDialog dlg = new OpenFileDialog();
+            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                _data[index].downloaded = true;
+                _data[index].status = "Download Complete";
+                _data[index].dirty = true;
+                string filename = dlg.SafeFileName;
+                File.Move(dlg.SafeFileName, getFileName(index));
+                //dlg.FileName
+
+                updateView();
+            }
+
+        }
+
+        private void btnExtract_Click(object sender, EventArgs e)
+        {
+            StreamWriter os = new StreamWriter("Extractor.csv");
+
+            foreach (DataItem item in _data)
+            {
+                foreach (string[] strArr in item.dataList)
+                {
+                    string name = strArr[3].Trim();
+                    string email = strArr[1].Trim();
+                    string tel = strArr[5].Trim();
+
+                    string firstName, lastname;
+                    int spaceIndex = name.IndexOf(' ');
+                    if (name.IndexOf(' ') == -1)
+                    {
+                        firstName = name;
+                        lastname = "";
+                    }
+                    else
+                    {
+                        firstName = name.Substring(0, spaceIndex);
+                        lastname = name.Substring(spaceIndex + 1);
+                    }
+
+                    string line = new StringBuilder().Append(firstName).Append(',')
+                        .Append(lastname).Append(',')
+                        .Append(email).Append(',')
+                        .Append(tel).ToString();
+                    os.WriteLine(line);
+                }
+            }
+
+            
+            
+            os.Close();
         }
     }
 
-    public abstract class DataFilter
-    {
-        abstract public int getCount();
-        abstract public string getTitle(int index);
-        abstract public string getValue(int index);
-        abstract public void setValue(int index, string value);
-        abstract public string getType();
-        abstract public List<string[]> filter(string fileName);
-    }
+    //public abstract class DataFilter
+    //{
+    //    abstract public int getCount();
+    //    abstract public string getTitle(int index);
+    //    abstract public string getValue(int index);
+    //    abstract public void setValue(int index, string value);
+    //    abstract public string getType();
+    //    abstract public List<string[]> filter(string fileName);
+    //}
 
-    public class DataFilterXPath : DataFilter
+    public class DataFilter
     {
         public string xpath;
         public string xpathRelative;
 
-        public override int getCount() 
+        public int getCount() 
         {
             return 2;
         }
 
-        public override string getTitle(int index)
+        public string getTitle(int index)
         {
             switch (index)
             {
@@ -246,7 +329,7 @@ namespace HtmlParser
             }
         }
 
-        public override string getValue(int index)
+        public string getValue(int index)
         {
             switch (index)
             {
@@ -259,7 +342,7 @@ namespace HtmlParser
             }
         }
 
-        public override void setValue(int index, string value)
+        public void setValue(int index, string value)
         {
             switch (index)
             {
@@ -272,14 +355,31 @@ namespace HtmlParser
             }
         }
 
-        public override string getType()
+        public string getType()
         {
             return "DataFilterXPath";
         }
 
-        public override List<string[]> filter(string fileName)
+        public List<string[]> filter(string filename)
         {
-            return null;
+            string file = File.ReadAllText(filename);
+
+            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+            doc.LoadHtml(file);
+            
+            if (doc.ParseErrors != null && doc.ParseErrors.Count() > 0)
+                return new List<string[]>();
+
+            string docXpath = doc.DocumentNode.XPath;
+            HtmlAgilityPack.HtmlNodeCollection nodes = doc.DocumentNode.SelectNodes(xpath);
+
+            List<string[]> result = new List<string[]>();
+            foreach (HtmlAgilityPack.HtmlNode node in nodes) {
+                if (DetailItem.regex.IsMatch(node.InnerText))
+                    result.Add(new string[] { node.InnerText });    
+            }
+
+            return result;
         }
     }
 
@@ -287,7 +387,8 @@ namespace HtmlParser
     {
         public string url;
         public bool downloaded = false;
-        public string[] matches;
+        //public string[] matches;
+        public List<string[]> dataList = new List<string[]>();
         public string status;
 
         public List<DataFilter> filterList = new List<DataFilter>();
